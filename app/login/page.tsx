@@ -80,7 +80,7 @@ export default function LoginPage() {
                     </form>
 
                     <p className="mt-8 text-center text-slate-500 font-body">
-                        Don't have an account?{' '}
+                        Don&apos;t have an account?{' '}
                         <Link href="/register" className="text-blue-600 font-bold hover:underline">
                             Sign up
                         </Link>
@@ -102,7 +102,7 @@ export default function LoginPage() {
                         In Seconds.
                     </h2>
                     <p className="text-blue-200 text-lg font-body max-w-sm mx-auto">
-                        Experience the industry's fastest repository-to-prompt engine.
+                        Experience the industry&apos;s fastest repository-to-prompt engine.
                     </p>
                 </div>
             </div>

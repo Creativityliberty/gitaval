@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import RepoAnalyzer from "../components/RepoAnalyzer";
-import { LogOut, LayoutDashboard, Settings, UserCircle } from "lucide-react";
+import { LayoutDashboard, Settings, UserCircle } from "lucide-react";
 import Link from "next/link";
 import LogoutButton from "./LogoutButton";
 
