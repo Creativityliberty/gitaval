@@ -14,7 +14,7 @@ export default function Home() {
       </div>
 
       <footer className="fixed bottom-0 w-full py-6 text-center text-slate-400 text-sm bg-white/80 backdrop-blur-sm border-t border-slate-100">
-        <p>© 2024 Gitavale. Built with Bun & Next.js.</p>
+        <p>© 2026 Gitavale - Nümtema AI Foundry</p>
       </footer>
     </main>
   );

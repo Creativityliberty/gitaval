@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,25 +12,19 @@
   --muted: #f1f5f9;
   --muted-foreground: #64748b;
   --border: #e2e8f0;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Keeping it light/blue as requested, or maybe a dark blue mode?
-       Propbably safer to default to the requested "White & Blue" even in dark mode 
-       or just support system dark mode with darker blues. 
-       Let's stick to a clean light theme for now to match "White & Blue" strict request.
-    */
-    --background: #f8fafc;
-    --foreground: #0f172a;
-  }
+  --font-display: 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Poppins', sans-serif;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
+}
+
+.font-display {
+  font-family: var(--font-display);
 }
 
 @layer utilities {
