@@ -87,8 +87,8 @@ export default function Home() {
                   <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/50"></span>
                   <span className="w-2.5 h-2.5 rounded-full bg-green-500/50"></span>
                 </div>
-                <p><span className="text-primary">import</span> &#123; Parser &#125; <span className="text-primary">from</span> '@gitavale/core';</p>
-                <p>const result = await Parser.analyze('https://github.com/...');</p>
+                <p><span className="text-primary">import</span> &#123; Parser &#125; <span className="text-primary">from</span> &apos;@gitavale/core&apos;;</p>
+                <p>const result = await Parser.analyze(&apos;https://github.com/...&apos;);</p>
               </div>
             </div>
 

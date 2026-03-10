@@ -1,4 +1,4 @@
-import { Key, Plus, Copy, Trash2, Eye } from "lucide-react";
+import { Key, Plus, Copy, Trash2, Eye, Terminal } from "lucide-react";
 
 export default function ApiKeysPage() {
     return (
