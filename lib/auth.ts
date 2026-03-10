@@ -16,25 +16,39 @@ export const authOptions: NextAuthOptions = {
                     throw new Error("Veuillez fournir un email et un mot de passe.");
                 }
 
-                const user = await prisma.user.findUnique({
-                    where: { email: credentials.email }
-                });
-
-                if (!user || !user.password) {
-                    throw new Error("Aucun utilisateur trouvé avec cet email.");
+                // --- DEMO MODE FALLBACK (Pour tester sur Vercel sans DB) ---
+                if (credentials.email === "demo@numtema.ai" && credentials.password === "gitavale2026") {
+                    return {
+                        id: "demo-user",
+                        email: "demo@numtema.ai",
+                        name: "Demo User (Foundry)",
+                    };
                 }
 
-                const isValid = await bcrypt.compare(credentials.password, user.password);
+                try {
+                    const user = await prisma.user.findUnique({
+                        where: { email: credentials.email }
+                    });
 
-                if (!isValid) {
-                    throw new Error("Mot de passe incorrect.");
+                    if (!user || !user.password) {
+                        throw new Error("Aucun utilisateur trouvé avec cet email.");
+                    }
+
+                    const isValid = await bcrypt.compare(credentials.password, user.password);
+
+                    if (!isValid) {
+                        throw new Error("Mot de passe incorrect.");
+                    }
+
+                    return {
+                        id: user.id,
+                        email: user.email,
+                        name: user.name,
+                    };
+                } catch (dbError) {
+                    console.error("Database error, please check connection:", dbError);
+                    throw new Error("Erreur de connexion à la base de données. Utilisez le compte démo.");
                 }
-
-                return {
-                    id: user.id,
-                    email: user.email,
-                    name: user.name,
-                };
             }
         })
     ],
