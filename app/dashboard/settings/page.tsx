@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Settings2, Save, Sparkles, FileText, Code } from 'lucide-react';
+import { Save, Sparkles, FileText } from 'lucide-react';
 
 interface ExportSettings {
     format: 'markdown' | 'text' | 'json';

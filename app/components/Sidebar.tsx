@@ -23,7 +23,7 @@ export default function Sidebar({ onSelectProject }: { onSelectProject: (url: st
                 if (res.ok) {
                     const data = await res.json();
                     if (data.projects && data.projects.length > 0) {
-                        const formatted = data.projects.map((p: any) => ({
+                        const formatted = data.projects.map((p: { id: string; repoUrl: string; timestamp: string | number | Date; owner: string; repoName: string }) => ({
                             id: p.id,
                             url: p.repoUrl,
                             timestamp: new Date(p.timestamp).getTime(),
