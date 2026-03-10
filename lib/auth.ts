@@ -52,12 +52,19 @@ export const authOptions: NextAuthOptions = {
         signIn: "/login",
     },
     callbacks: {
+        async jwt({ token, user }) {
+            if (user) {
+                token.id = user.id;
+            }
+            return token;
+        },
         async session({ session, token }) {
             if (token && session.user) {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                (session.user as any).id = token.sub;
+                (session.user as any).id = token.id;
             }
             return session;
         }
-    }
+    },
+    debug: process.env.NODE_ENV === "development",
 };
