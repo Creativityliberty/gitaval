@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { History, X, Trash2, FolderOpen, Database } from 'lucide-react';
+import { Archive, X, Trash2, FolderOpen } from 'lucide-react';
 
 interface Project {
     id: string;
@@ -23,7 +23,7 @@ export default function Sidebar({ onSelectProject }: { onSelectProject: (url: st
                 if (res.ok) {
                     const data = await res.json();
                     if (data.projects && data.projects.length > 0) {
-                        const formatted = data.projects.map((p: { id: string; repoUrl: string; timestamp: string | number | Date; owner: string; repoName: string }) => ({
+                        const formatted = data.projects.map((p: any) => ({
                             id: p.id,
                             url: p.repoUrl,
                             timestamp: new Date(p.timestamp).getTime(),
@@ -31,7 +31,6 @@ export default function Sidebar({ onSelectProject }: { onSelectProject: (url: st
                             repo: p.repoName
                         }));
                         setProjects(formatted);
-                        // Update local storage so it's fresh
                         localStorage.setItem('gitavale_projects', JSON.stringify(formatted));
                         return;
                     }
@@ -40,7 +39,6 @@ export default function Sidebar({ onSelectProject }: { onSelectProject: (url: st
                 console.error("Failed to fetch cloud projects", e);
             }
 
-            // Fallback to local storage
             const stored = localStorage.getItem('gitavale_projects');
             if (stored) {
                 setProjects(JSON.parse(stored));
@@ -61,11 +59,11 @@ export default function Sidebar({ onSelectProject }: { onSelectProject: (url: st
         <>
             <button
                 onClick={() => setIsOpen(true)}
-                className="fixed right-6 bottom-6 z-50 p-3 btn-glass hover:scale-110 transition-transform flex items-center gap-2 shadow-2xl"
-                title="Project History"
+                className="fixed right-6 bottom-6 z-50 p-4 btn-glass hover:scale-110 transition-transform flex items-center gap-3 shadow-[0_0_30px_-5px_rgba(34,211,238,0.3)] border border-primary/30 group"
+                title="Project Archives"
             >
-                <History className="h-5 w-5 text-primary" />
-                <span className="text-xs text-white font-medium hidden sm:block">History</span>
+                <Archive className="h-5 w-5 text-primary group-hover:text-white transition-colors" />
+                <span className="text-sm text-white font-bold hidden sm:block">My Archives</span>
             </button>
 
             <AnimatePresence>
@@ -87,8 +85,8 @@ export default function Sidebar({ onSelectProject }: { onSelectProject: (url: st
                         >
                             <div className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20">
                                 <div className="flex items-center gap-3">
-                                    <Database className="h-5 w-5 text-primary" />
-                                    <h2 className="font-display font-bold text-xl text-white">Projects</h2>
+                                    <Archive className="h-5 w-5 text-primary" />
+                                    <h2 className="font-display font-bold text-xl text-white">My Archives</h2>
                                 </div>
                                 <button onClick={() => setIsOpen(false)} className="p-2 hover:bg-white/10 rounded-full transition-colors">
                                     <X className="h-5 w-5 text-muted-foreground hover:text-white" />
@@ -129,11 +127,14 @@ export default function Sidebar({ onSelectProject }: { onSelectProject: (url: st
                                 )}
                             </div>
 
-                            <div className="p-6 border-t border-white/10 bg-black/20">
-                                <div className="flex items-center gap-2 text-xs text-muted-foreground font-mono">
-                                    <div className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                                    Local Multi-Tenant Active
-                                </div>
+                            <div className="p-6 border-t border-white/10 bg-black/20 text-center">
+                                <Link
+                                    href="/dashboard/archives"
+                                    onClick={() => setIsOpen(false)}
+                                    className="text-xs text-primary hover:underline font-bold tracking-widest uppercase"
+                                >
+                                    View Dashboard Archives
+                                </Link>
                             </div>
                         </motion.aside>
                     </>
@@ -142,3 +143,5 @@ export default function Sidebar({ onSelectProject }: { onSelectProject: (url: st
         </>
     );
 }
+
+import Link from 'next/link';

@@ -1,0 +1,21 @@
+# Gitavale — Windsurf Rules
+
+## Project
+Next.js 14 SaaS that turns GitHub repos into LLM-ready digests.
+
+## Skills
+Read `.agents/skills/gitavale/SKILL.md` for full docs: API endpoints, DB schema, env vars, CLI usage.
+
+## Stack
+- Framework: Next.js 14 (App Router)
+- DB: Prisma + PostgreSQL (Neon)
+- Auth: NextAuth.js (`lib/auth.ts`)
+- Payments: Polar.sh (`lib/polar.ts`)
+- API Auth: Bearer tokens (`gta_` prefix) hashed SHA-256 in DB
+- CLI: Python (`cli-anything-gitavale/`)
+
+## Conventions
+- Server components: use `getServerSession(authOptions)`
+- New Prisma fields: cast `as any` locally (postinstall runs `prisma db push` on Vercel)
+- CSS utilities: `glass-panel`, `glass-card`, `btn-primary`, `btn-glass` from `globals.css`
+- Deploy: push to GitHub → Vercel auto-deploys

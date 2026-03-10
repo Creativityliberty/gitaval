@@ -63,47 +63,55 @@ export default async function ArchivesPage() {
             )}
 
             {session && projects.length === 0 && (
-                <div className="glass-card p-12 text-center text-muted-foreground">
-                    No archives found. Analyze a repository from the dashboard first.
+                <div className="glass-card p-12 text-center flex flex-col items-center justify-center space-y-4">
+                    <div className="h-16 w-16 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center opacity-30 mb-2">
+                        <Archive className="h-8 w-8" />
+                    </div>
+                    <div>
+                        <h2 className="text-xl font-bold text-white mb-2">No archives yet</h2>
+                        <p className="text-muted-foreground max-w-xs mx-auto text-sm">Analyze your first repository to start building your knowledge base history.</p>
+                    </div>
+                    <Link href="/dashboard" className="btn-primary px-8 mt-4">Analyze a Repo</Link>
                 </div>
             )}
 
             {session && projects.length > 0 && (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                     {projects.map((project) => (
-                        <div key={project.id} className="glass-card p-6 flex flex-col transition-all hover:border-primary/50 group">
+                        <Link
+                            key={project.id}
+                            href={`/dashboard/archives/${project.id}`}
+                            className="glass-card p-6 flex flex-col transition-all hover:border-primary/50 group relative overflow-hidden"
+                        >
+                            <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <ArrowRight className="h-4 w-4 text-primary" />
+                            </div>
+
                             <div className="flex justify-between items-start mb-4">
-                                <div>
-                                    <h3 className="font-display font-bold text-lg text-white group-hover:text-primary transition-colors">{project.repoName}</h3>
-                                    <p className="text-xs text-muted-foreground">{project.owner}</p>
+                                <div className="min-w-0 pr-8">
+                                    <h3 className="font-display font-bold text-lg text-white group-hover:text-primary transition-colors truncate">{project.repoName}</h3>
+                                    <p className="text-xs text-muted-foreground truncate opacity-70">{project.owner}</p>
                                 </div>
-                                <span className="px-2 py-1 bg-primary/10 text-primary text-[10px] font-bold uppercase rounded-md border border-primary/20">
+                                <span className="px-2 py-1 bg-primary/10 text-primary text-[10px] font-bold uppercase rounded-md border border-primary/20 shrink-0">
                                     {project.exportFormat || 'txt'}
                                 </span>
                             </div>
 
-                            <div className="space-y-2 mt-auto mb-6">
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-muted-foreground">Files:</span>
-                                    <span className="text-white font-mono">{project.fileCount}</span>
+                            <div className="space-y-2 mt-auto">
+                                <div className="flex justify-between text-[13px]">
+                                    <span className="text-muted-foreground">Files</span>
+                                    <span className="text-white font-mono font-bold">{project.fileCount}</span>
                                 </div>
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-muted-foreground">Est. Tokens:</span>
-                                    <span className="text-cyan-400 font-mono">{(project.tokenCount || 0).toLocaleString()}</span>
+                                <div className="flex justify-between text-[13px]">
+                                    <span className="text-muted-foreground">Tokens</span>
+                                    <span className="text-cyan-400 font-mono font-bold">{(project.tokenCount || 0).toLocaleString()}</span>
                                 </div>
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-muted-foreground">Date:</span>
-                                    <span className="text-white/60 text-xs">{new Date(project.timestamp).toLocaleDateString()}</span>
+                                <div className="pt-3 border-t border-white/5 mt-2 flex justify-between items-center text-[11px] font-mono text-white/40">
+                                    <span>{new Date(project.timestamp).toLocaleDateString()}</span>
+                                    <span>{new Date(project.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                                 </div>
                             </div>
-
-                            <Link
-                                href={`/dashboard/archives/${project.id}`}
-                                className="mt-auto w-full py-2.5 bg-white/5 hover:bg-white/10 text-white rounded-xl flex items-center justify-center gap-2 transition-colors text-sm font-medium border border-white/5"
-                            >
-                                Open Archive <ArrowRight className="h-4 w-4" />
-                            </Link>
-                        </div>
+                        </Link>
                     ))}
                 </div>
             )}

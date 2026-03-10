@@ -1,0 +1,20 @@
+# Gitavale — Cursor Rules
+
+## Project
+Next.js 14 SaaS that turns GitHub repos into LLM-ready digests.
+- App dir: `/app` (Next.js App Router)
+- DB: Prisma + PostgreSQL — `prisma/schema.prisma`
+- Auth: NextAuth.js — `lib/auth.ts`
+- Payments: Polar.sh — `lib/polar.ts`, `app/api/checkout/route.ts`
+- API Keys: `lib/apiAuth.ts` (SHA-256 Bearer tokens prefixed `gta_`)
+- CLI: Python — `cli-anything-gitavale/`
+
+## Skills
+Read `.agents/skills/gitavale/SKILL.md` for full API docs, schema, and env vars.
+
+## Key Conventions
+- All new API routes go in `app/api/`
+- Use `getServerSession(authOptions)` for auth in server components
+- New Prisma fields: cast with `as any` locally until `prisma generate` runs on deploy
+- Unstyled components use utility classes from `globals.css` (glass-panel, btn-primary, etc.)
+- Push to GitHub → Vercel auto-deploys (postinstall runs `prisma db push`)

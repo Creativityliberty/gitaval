@@ -162,49 +162,71 @@ export default function ApiKeysPage() {
                 )}
             </AnimatePresence>
 
-            {/* Keys table */}
-            <div className="glass-panel rounded-[2rem] overflow-hidden border border-white/10">
+            {/* Keys list */}
+            <div className="space-y-4">
                 {loading ? (
-                    <div className="p-12 text-center text-muted-foreground">Loading keys…</div>
+                    <div className="glass-panel p-12 text-center text-muted-foreground rounded-[2rem]">Loading keys…</div>
                 ) : keys.length === 0 ? (
-                    <div className="p-12 text-center text-muted-foreground">No API keys yet. Generate your first key above.</div>
+                    <div className="glass-panel p-12 text-center text-muted-foreground rounded-[2rem]">No API keys yet. Generate your first key above.</div>
                 ) : (
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left border-collapse">
-                            <thead>
-                                <tr className="bg-white/5 border-b border-white/10 text-muted-foreground text-xs font-bold uppercase tracking-wider">
-                                    <th className="px-6 py-4">Name</th>
-                                    <th className="px-6 py-4">Key</th>
-                                    <th className="px-6 py-4">Created</th>
-                                    <th className="px-6 py-4">Last Used</th>
-                                    <th className="px-6 py-4 text-right">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-white/5">
-                                {keys.map(k => (
-                                    <tr key={k.id} className="hover:bg-white/5 transition-colors">
-                                        <td className="px-6 py-4 font-medium text-white">{k.name}</td>
-                                        <td className="px-6 py-4">
-                                            <code className="font-mono text-sm bg-black/40 px-3 py-1.5 rounded-lg text-cyan-400">
-                                                {k.keyPrefix}
-                                            </code>
-                                        </td>
-                                        <td className="px-6 py-4 text-sm text-muted-foreground">
-                                            {new Date(k.createdAt).toLocaleDateString()}
-                                        </td>
-                                        <td className="px-6 py-4 text-sm text-muted-foreground">
-                                            {k.lastUsedAt ? new Date(k.lastUsedAt).toLocaleDateString() : 'Never'}
-                                        </td>
-                                        <td className="px-6 py-4 text-right">
-                                            <button onClick={() => handleDelete(k.id)} className="p-2 text-red-500/70 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all">
-                                                <Trash2 className="h-4 w-4" />
-                                            </button>
-                                        </td>
+                    <>
+                        {/* Desktop Table */}
+                        <div className="hidden md:block glass-panel rounded-[2rem] overflow-hidden border border-white/10">
+                            <table className="w-full text-left border-collapse">
+                                <thead>
+                                    <tr className="bg-white/5 border-b border-white/10 text-muted-foreground text-xs font-bold uppercase tracking-wider">
+                                        <th className="px-6 py-4">Name</th>
+                                        <th className="px-6 py-4">Key</th>
+                                        <th className="px-6 py-4">Created</th>
+                                        <th className="px-6 py-4 text-right">Actions</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                                </thead>
+                                <tbody className="divide-y divide-white/5">
+                                    {keys.map(k => (
+                                        <tr key={k.id} className="hover:bg-white/5 transition-colors group">
+                                            <td className="px-6 py-4 font-medium text-white">{k.name}</td>
+                                            <td className="px-6 py-4">
+                                                <code className="font-mono text-sm bg-black/40 px-3 py-1.5 rounded-lg text-cyan-400">
+                                                    {k.keyPrefix}
+                                                </code>
+                                            </td>
+                                            <td className="px-6 py-4 text-sm text-muted-foreground">
+                                                {new Date(k.createdAt).toLocaleDateString()}
+                                            </td>
+                                            <td className="px-6 py-4 text-right">
+                                                <button onClick={() => handleDelete(k.id)} className="p-2 text-red-500/70 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all">
+                                                    <Trash2 className="h-4 w-4" />
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        {/* Mobile Cards */}
+                        <div className="md:hidden space-y-4">
+                            {keys.map(k => (
+                                <div key={k.id} className="glass-card p-5 space-y-4">
+                                    <div className="flex justify-between items-start">
+                                        <div>
+                                            <h3 className="font-bold text-white mb-1">{k.name}</h3>
+                                            <p className="text-[10px] text-muted-foreground uppercase tracking-widest">Created {new Date(k.createdAt).toLocaleDateString()}</p>
+                                        </div>
+                                        <button onClick={() => handleDelete(k.id)} className="p-2.5 text-red-500/70 bg-red-500/5 rounded-xl border border-red-500/10">
+                                            <Trash2 className="h-4 w-4" />
+                                        </button>
+                                    </div>
+                                    <div className="flex items-center gap-2 p-3 bg-black/40 rounded-xl border border-white/5">
+                                        <Key className="h-3.5 w-3.5 text-primary opacity-50" />
+                                        <code className="font-mono text-xs text-cyan-400 truncate flex-1">
+                                            {k.keyPrefix}
+                                        </code>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </>
                 )}
             </div>
 
