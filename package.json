@@ -10,6 +10,7 @@
     "postinstall": "prisma generate && prisma db push"
   },
   "dependencies": {
+    "@polar-sh/sdk": "^0.46.3",
     "@prisma/client": "^5.21.1",
     "@types/jszip": "^3.4.0",
     "@types/minimatch": "^6.0.0",

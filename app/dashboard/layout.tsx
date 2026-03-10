@@ -1,7 +1,8 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
-import { LayoutDashboard, Settings, Key, UserCircle, Archive } from "lucide-react";
+import { LayoutDashboard, Settings, Key, UserCircle, Archive, Zap } from "lucide-react";
 import Link from "next/link";
 import LogoutButton from "./LogoutButton";
 
@@ -14,6 +15,16 @@ export default async function DashboardLayout({
 
     if (!session) {
         redirect("/login");
+    }
+
+    let userPlan = "free";
+    if (session?.user?.email) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const user = await (prisma.user.findUnique as any)({
+            where: { email: session.user.email },
+            select: { plan: true }
+        });
+        userPlan = user?.plan || "free";
     }
 
     return (
@@ -39,13 +50,20 @@ export default async function DashboardLayout({
                     <Link href="/dashboard/archives" className="flex items-center gap-3 px-4 py-3 text-muted-foreground hover:text-white hover:bg-white/5 font-medium rounded-2xl transition-colors">
                         <Archive className="h-5 w-5" /> Archives
                     </Link>
+                    {userPlan !== "pro" && (
+                        <Link href="/dashboard/upgrade" className="flex items-center gap-3 px-4 py-3 bg-primary/10 hover:bg-primary/20 text-primary font-bold rounded-2xl transition-colors border border-primary/20">
+                            <Zap className="h-5 w-5" /> Upgrade to Pro
+                        </Link>
+                    )}
                 </nav>
                 <div className="p-4 border-t border-white/5 flex items-center justify-between bg-black/20">
                     <div className="flex items-center gap-3">
                         <UserCircle className="h-8 w-8 text-muted-foreground" />
                         <div className="flex flex-col">
                             <span className="text-sm font-bold text-white truncate max-w-[100px]">{session.user?.name || "User"}</span>
-                            <span className="text-xs text-primary">Pro Plan</span>
+                            <span className={`text-xs font-bold ${userPlan === "pro" ? "text-primary" : "text-muted-foreground"}`}>
+                                {userPlan === "pro" ? "⚡ Pro Plan" : "Free Plan"}
+                            </span>
                         </div>
                     </div>
                     <LogoutButton />
