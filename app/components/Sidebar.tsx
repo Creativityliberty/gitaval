@@ -23,6 +23,7 @@ export default function Sidebar({ onSelectProject }: { onSelectProject: (url: st
                 if (res.ok) {
                     const data = await res.json();
                     if (data.projects && data.projects.length > 0) {
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         const formatted = data.projects.map((p: any) => ({
                             id: p.id,
                             url: p.repoUrl,

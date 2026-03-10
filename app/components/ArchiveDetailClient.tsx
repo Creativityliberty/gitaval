@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Download, Sparkles, Copy, Check } from 'lucide-react';
+import { ArrowLeft, Download, Sparkles, Copy, Check, Archive } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Props {
@@ -124,7 +124,7 @@ export default function ArchiveDetailClient({ project }: Props) {
                     <div className="h-12 w-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-4">
                         <Archive className="h-6 w-6 opacity-30" />
                     </div>
-                    <p>This archive doesn't have a stored digest.</p>
+                    <p>This archive doesn&apos;t have a stored digest.</p>
                     <p className="text-xs mt-1 opacity-60">Re-analyze the repository to save a full digest.</p>
                 </div>
             )}

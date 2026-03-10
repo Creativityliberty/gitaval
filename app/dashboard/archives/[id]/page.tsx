@@ -30,8 +30,11 @@ export default async function ArchiveDetailPage({ params }: Props) {
         fileCount: raw.fileCount,
         tokenCount: raw.tokenCount,
         timestamp: raw.timestamp,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         exportFormat: (raw as any).exportFormat ?? null,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         promptTemplate: (raw as any).promptTemplate ?? null,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         digest: (raw as any).digest ?? null,
     };
 
