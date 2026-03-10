@@ -61,6 +61,7 @@ export default function ProfilePage() {
                         className="relative h-24 w-24 rounded-3xl bg-primary/10 border-2 border-primary/30 flex items-center justify-center cursor-pointer hover:border-primary/60 transition-colors overflow-hidden group"
                     >
                         {avatar
+                            // eslint-disable-next-line @next/next/no-img-element
                             ? <img src={avatar} alt="avatar" className="h-full w-full object-cover" />
                             : <User className="h-10 w-10 text-primary/50" />
                         }

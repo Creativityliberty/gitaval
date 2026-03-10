@@ -6,20 +6,33 @@ import { polar } from '@/lib/polar';
 export async function GET() {
     const session = await getServerSession(authOptions);
     if (!session?.user?.email) {
-        return NextResponse.redirect(new URL('/login', process.env.NEXTAUTH_URL!));
+        const loginUrl = `${process.env.NEXTAUTH_URL || 'https://gitaval.vercel.app'}/login`;
+        return NextResponse.redirect(loginUrl);
     }
 
     try {
-        // Create a Polar customer portal session
-        const portalSession = await polar.customerSessions.create({
-            customerId: undefined as unknown as string,
-            customerEmail: session.user.email,
+        // Find the Polar customer by email
+        const customers = await polar.customers.list({ email: session.user.email });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const items = (customers as any)?.items || (customers as any)?.result?.items || [];
+        const customer = items[0];
+
+        if (!customer?.id) {
+            // Not a customer yet — redirect to upgrade page
+            return NextResponse.redirect(`${process.env.NEXTAUTH_URL || 'https://gitaval.vercel.app'}/dashboard/upgrade`);
+        }
+
+        // Create a customer portal session with the customer ID
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const portalSession = await (polar.customerSessions as any).create({
+            customerId: customer.id,
         });
 
-        return NextResponse.redirect(portalSession.customerPortalUrl);
+        const portalUrl = portalSession?.customerPortalUrl || portalSession?.url || 'https://polar.sh/purchases';
+        return NextResponse.redirect(portalUrl);
     } catch (error) {
         console.error('Billing portal error:', error);
-        // Fallback redirect to Polar directly
+        // Graceful fallback to Polar's generic portal
         return NextResponse.redirect('https://polar.sh/purchases');
     }
 }
