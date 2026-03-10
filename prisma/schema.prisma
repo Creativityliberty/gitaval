@@ -42,6 +42,8 @@ model User {
   image         String?
   password      String?
   plan          String    @default("free")
+  analysisCount Int       @default(0)
+  analysisResetAt DateTime?
   accounts      Account[]
   sessions      Session[]
   projects      Project[]

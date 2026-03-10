@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Copy, Loader2, FileCode, Check, Download, ChevronRight, ChevronDown } from 'lucide-react';
 import Sidebar from './Sidebar';
 import ProgressBanner from './ProgressBanner';
+import UpgradeModal from './UpgradeModal';
 import JSZip from 'jszip';
 
 export default function RepoAnalyzer() {
@@ -16,11 +17,29 @@ export default function RepoAnalyzer() {
     const [error, setError] = useState('');
     const [copied, setCopied] = useState(false);
     const [treeOpen, setTreeOpen] = useState(true);
+    const [upgradeModal, setUpgradeModal] = useState<'anon' | 'free_limit' | null>(null);
+
+    const ANON_LIMIT = 1;
+
+    const getAnonCount = () => {
+        try { return parseInt(localStorage.getItem('gitavale_anon_count') || '0'); } catch { return 0; }
+    };
+    const incrementAnonCount = () => {
+        try { localStorage.setItem('gitavale_anon_count', String(getAnonCount() + 1)); } catch { /* noop */ }
+    };
 
     const handleAnalyze = async (e?: React.FormEvent, manualUrl?: string) => {
         if (e) e.preventDefault();
         const targetUrl = manualUrl || url;
         if (!targetUrl) return;
+
+        // Gate: check anonymous usage before calling API
+        const anonCount = getAnonCount();
+        const isLoggedIn = !!document.cookie.includes('next-auth.session-token') || !!document.cookie.includes('__Secure-next-auth.session-token');
+        if (!isLoggedIn && anonCount >= ANON_LIMIT) {
+            setUpgradeModal('anon');
+            return;
+        }
 
         setLoading(true);
         setError('');
@@ -37,8 +56,15 @@ export default function RepoAnalyzer() {
 
             if (!res.ok) {
                 const data = await res.json();
+                if (res.status === 429 && data.limitReached) {
+                    setUpgradeModal('free_limit');
+                    return;
+                }
                 throw new Error(data.error || 'Failed to analyze repository');
             }
+
+            // Track anonymous usage after successful call
+            if (!isLoggedIn) incrementAnonCount();
 
             setStatusMessage('PARSING FILE SYSTEM...');
             const data = await res.json();
@@ -175,7 +201,13 @@ export default function RepoAnalyzer() {
 
     return (
         <div className="w-full max-w-5xl mx-auto px-4 py-8 relative">
+            <UpgradeModal
+                isOpen={upgradeModal !== null}
+                onClose={() => setUpgradeModal(null)}
+                reason={upgradeModal || 'anon'}
+            />
             <ProgressBanner message={statusMessage} />
+
             <Sidebar onSelectProject={(selectedUrl) => {
                 setUrl(selectedUrl);
                 handleAnalyze(undefined, selectedUrl);
