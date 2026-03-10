@@ -7,6 +7,7 @@ import Sidebar from './Sidebar';
 import ProgressBanner from './ProgressBanner';
 import UpgradeModal from './UpgradeModal';
 import JSZip from 'jszip';
+import { useTranslations } from 'next-intl';
 
 export default function RepoAnalyzer() {
     const t = useTranslations('RepoAnalyzer');
