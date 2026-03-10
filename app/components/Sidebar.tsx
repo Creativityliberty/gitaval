@@ -61,9 +61,11 @@ export default function Sidebar({ onSelectProject }: { onSelectProject: (url: st
         <>
             <button
                 onClick={() => setIsOpen(true)}
-                className="fixed left-6 top-6 z-50 p-3 btn-glass hover:scale-110 transition-transform md:translate-x-0"
+                className="fixed right-6 bottom-6 z-50 p-3 btn-glass hover:scale-110 transition-transform flex items-center gap-2 shadow-2xl"
+                title="Project History"
             >
-                <History className="h-6 w-6 text-primary" />
+                <History className="h-5 w-5 text-primary" />
+                <span className="text-xs text-white font-medium hidden sm:block">History</span>
             </button>
 
             <AnimatePresence>
