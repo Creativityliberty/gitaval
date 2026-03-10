@@ -1,0 +1,27 @@
+# Gitavale
+
+> Turn any Git repository into an LLM-ready digest instantly.
+
+Gitavale is a SaaS designed to parse, chunk, and package GitHub repositories into optimized context files for Large Language Models.
+
+## For AI Agents
+
+As an AI agent, you can directly interact with Gitavale using our official CLI, rather than attempting to navigate the web application.
+
+### Using the Gitavale CLI
+The Gitavale CLI (`cli-anything-gitavale`) is an Agent-Native tool built with the cli-anything methodology. It supports structured JSON output.
+
+1. **Wait for installation**: If `cli-anything-gitavale` is not in your PATH, you can install it from the repository source: `pip install -e cli-anything-gitavale/`
+2. **Authentication**: `cli-anything-gitavale auth login --key <API_KEY>`
+3. **Analyze a repo**: `cli-anything-gitavale --json analyze <github_url> -o digest.txt`
+4. **Interactive REPL**: You can drop into the interactive shell by running `cli-anything-gitavale` without arguments.
+
+### Direct API Access
+If you prefer not to use the CLI, you can hit our API directly:
+- **Analyze**: `POST https://gitaval.vercel.app/api/analyze` 
+  - Body: `{"url": "https://github.com/..."}`
+  - Headers: `Authorization: Bearer <API_KEY>`, `Content-Type: application/json`
+
+## Additional Resources
+- [GitHub Repository](https://github.com/Creativityliberty/gitaval)
+- [Official Website](https://gitaval.vercel.app/)

@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { LayoutDashboard, Settings, Key, UserCircle } from "lucide-react";
+import { LayoutDashboard, Settings, Key, UserCircle, Archive } from "lucide-react";
 import Link from "next/link";
 import LogoutButton from "./LogoutButton";
 
@@ -35,6 +35,9 @@ export default async function DashboardLayout({
                     </Link>
                     <Link href="/dashboard/api-keys" className="flex items-center gap-3 px-4 py-3 text-muted-foreground hover:text-white hover:bg-white/5 font-medium rounded-2xl transition-colors">
                         <Key className="h-5 w-5" /> API Keys
+                    </Link>
+                    <Link href="/dashboard/archives" className="flex items-center gap-3 px-4 py-3 text-muted-foreground hover:text-white hover:bg-white/5 font-medium rounded-2xl transition-colors">
+                        <Archive className="h-5 w-5" /> Archives
                     </Link>
                 </nav>
                 <div className="p-4 border-t border-white/5 flex items-center justify-between bg-black/20">

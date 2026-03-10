@@ -60,6 +60,11 @@ model Project {
   repoUrl     String
   owner       String
   repoName    String
+  fileCount      Int      @default(0)
+  tokenCount     Int      @default(0)
+  promptTemplate String?
+  exportFormat   String?
+  digest         String?  @db.Text
   timestamp   DateTime @default(now())
 
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)

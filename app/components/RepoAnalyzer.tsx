@@ -44,14 +44,17 @@ export default function RepoAnalyzer() {
             const data = await res.json();
 
             let finalContent = data.content; // Assuming data.content is the digest
+            let currentPrompt = "";
+            let currentFormat = "markdown";
 
             // Try formatting with custom prompt template
             try {
                 const storedSettings = localStorage.getItem('gitavale_settings');
                 if (storedSettings) {
                     const settings = JSON.parse(storedSettings);
-                    // Assuming settings.format is available and 'json' means no template
+                    currentFormat = settings.format || "markdown";
                     if (settings.promptTemplate && settings.format !== 'json') {
+                        currentPrompt = settings.promptTemplate;
                         finalContent = settings.promptTemplate + "\n\n" + finalContent;
                     }
                 }
@@ -64,7 +67,7 @@ export default function RepoAnalyzer() {
 
             setStatusMessage('GENERATING LLM DIGEST...');
             setResult(updatedResult);
-            saveToHistory(targetUrl, data.summary); // Use original summary for history
+            saveToHistory(targetUrl, data.summary, currentFormat, currentPrompt, finalContent); // Use original summary for history
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (err: unknown) {
             setError(err instanceof Error ? err.message : 'An unknown error occurred');
@@ -75,7 +78,7 @@ export default function RepoAnalyzer() {
     };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const saveToHistory = async (repoUrl: string, summary: any) => {
+    const saveToHistory = async (repoUrl: string, summary: any, exportFormat: string, promptTemplate: string, digest: string) => {
         // Save to local storage for guests
         const stored = localStorage.getItem('gitavale_projects');
         const projects = stored ? JSON.parse(stored) : [];
@@ -99,7 +102,10 @@ export default function RepoAnalyzer() {
                     owner: summary.owner,
                     repoName: summary.repo,
                     fileCount: summary.filesAnalyzed,
-                    tokenCount: summary.estimatedTokens || 0
+                    tokenCount: summary.estimatedTokens || 0,
+                    exportFormat,
+                    promptTemplate,
+                    digest
                 })
             });
         } catch (e) {
