@@ -1,10 +1,7 @@
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
 import RepoAnalyzer from "../../components/RepoAnalyzer";
 import { useTranslations } from 'next-intl';
 
 export default function DashboardPage() {
-    const session = getServerSession(authOptions);
     const t = useTranslations('Dashboard');
 
     return (
