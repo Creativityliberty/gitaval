@@ -1,34 +1,119 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #0f172a;
-  --primary: #2563eb;
-  --primary-foreground: #ffffff;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
-  --border: #e2e8f0;
-  --font-display: 'Plus Jakarta Sans', sans-serif;
-  --font-body: 'Poppins', sans-serif;
+  /* Theme Nümtema Midnight 2026 */
+  --background: 222 47% 1%;
+  /* Deep Midnight */
+  --foreground: 210 40% 98%;
+
+  --card: 222 47% 2%;
+  --card-foreground: 210 40% 98%;
+
+  --popover: 222 47% 2%;
+  --popover-foreground: 210 40% 98%;
+
+  --primary: 199 89% 48%;
+  /* Electric Blue */
+  --primary-foreground: 210 40% 98%;
+
+  --secondary: 217 32% 17%;
+  --secondary-foreground: 210 40% 98%;
+
+  --muted: 217 32% 5%;
+  --muted-foreground: 215 20% 65%;
+
+  --accent: 217 32% 17%;
+  --accent-foreground: 210 40% 98%;
+
+  --destructive: 0 62% 30%;
+  --destructive-foreground: 210 40% 98%;
+
+  --border: 217 32% 10%;
+  --input: 217 32% 10%;
+  --ring: 199 89% 48%;
+
+  --radius: 0.75rem;
+
+  /* Glassmorphism Tokens */
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur: 12px;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: var(--font-body);
-  -webkit-font-smoothing: antialiased;
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Outfit', sans-serif;
+    @apply font-bold tracking-tight;
+  }
 }
 
-.font-display {
-  font-family: var(--font-display);
+@layer components {
+  .glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    @apply shadow-xl;
+  }
+
+  .glass-card {
+    @apply glass-panel rounded-2xl transition-all duration-300 hover:border-primary/30;
+  }
+
+  .btn-primary {
+    @apply relative overflow-hidden px-6 py-2.5 rounded-xl font-semibold transition-all duration-300 bg-gradient-to-r from-primary to-blue-600 hover:shadow-[0_0_20px_rgba(30, 144, 255, 0.4)] active:scale-95;
+  }
+
+  .btn-glass {
+    @apply glass-panel px-6 py-2.5 rounded-xl font-medium transition-all duration-300 hover:bg-white/10 active:scale-95 border border-white/10;
+  }
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .text-glow {
+    text-shadow: 0 0 15px rgba(30, 144, 255, 0.4);
+  }
+
+  .bg-grid {
+    background-size: 40px 40px;
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  }
+
+  .animate-reveal {
+    animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes reveal {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
