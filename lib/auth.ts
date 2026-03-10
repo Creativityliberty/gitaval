@@ -12,6 +12,8 @@ export const authOptions: NextAuthOptions = {
                 password: { label: "Mot de passe", type: "password" }
             },
             async authorize(credentials) {
+                console.log("NextAuth Authorize attempt for:", credentials?.email);
+
                 if (!credentials?.email || !credentials?.password) {
                     throw new Error("Veuillez fournir un email et un mot de passe.");
                 }
@@ -22,23 +24,25 @@ export const authOptions: NextAuthOptions = {
                     });
 
                     if (!user || !user.password) {
+                        console.log("User not found or no password for:", credentials.email);
                         throw new Error("Aucun utilisateur trouvé avec cet email.");
                     }
 
                     const isValid = await bcrypt.compare(credentials.password, user.password);
 
                     if (!isValid) {
+                        console.log("Invalid password for:", credentials.email);
                         throw new Error("Mot de passe incorrect.");
                     }
 
+                    console.log("User authorized successfully:", credentials.email);
                     return {
                         id: user.id,
                         email: user.email,
                         name: user.name,
                     };
                 } catch (dbError) {
-                    console.error("Auth DB Error:", dbError);
-                    // Don't show technical error to user, but show a clear message
+                    console.error("CRITICAL: Auth DB Error during authorize:", dbError);
                     throw new Error("Erreur système lors de la connexion. Veuillez réessayer.");
                 }
             }
@@ -46,10 +50,12 @@ export const authOptions: NextAuthOptions = {
     ],
     session: {
         strategy: "jwt",
+        maxAge: 30 * 24 * 60 * 60, // 30 jours
     },
     secret: process.env.NEXTAUTH_SECRET,
     pages: {
         signIn: "/login",
+        error: "/login", // Rediriger les erreurs vers la page de login
     },
     callbacks: {
         async jwt({ token, user }) {
@@ -66,5 +72,6 @@ export const authOptions: NextAuthOptions = {
             return session;
         }
     },
-    debug: process.env.NODE_ENV === "development",
+    // Activer le mode debug en production temporairement pour voir les logs Vercel
+    debug: true,
 };
