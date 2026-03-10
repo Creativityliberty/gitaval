@@ -16,15 +16,6 @@ export const authOptions: NextAuthOptions = {
                     throw new Error("Veuillez fournir un email et un mot de passe.");
                 }
 
-                // --- DEMO MODE FALLBACK (Pour tester sur Vercel sans DB) ---
-                if (credentials.email === "demo@numtema.ai" && credentials.password === "gitavale2026") {
-                    return {
-                        id: "demo-user",
-                        email: "demo@numtema.ai",
-                        name: "Demo User (Foundry)",
-                    };
-                }
-
                 try {
                     const user = await prisma.user.findUnique({
                         where: { email: credentials.email }
@@ -46,8 +37,9 @@ export const authOptions: NextAuthOptions = {
                         name: user.name,
                     };
                 } catch (dbError) {
-                    console.error("Database error, please check connection:", dbError);
-                    throw new Error("Erreur de connexion à la base de données. Utilisez le compte démo.");
+                    console.error("Auth DB Error:", dbError);
+                    // Don't show technical error to user, but show a clear message
+                    throw new Error("Erreur système lors de la connexion. Veuillez réessayer.");
                 }
             }
         })
