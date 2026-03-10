@@ -85,7 +85,8 @@
   }
 
   .btn-primary {
-    @apply relative overflow-hidden px-6 py-2.5 rounded-xl font-semibold transition-all duration-300 bg-gradient-to-r from-primary to-blue-600;
+    @apply relative overflow-hidden px-6 py-2.5 rounded-xl font-semibold transition-all duration-300 text-white;
+    background: linear-gradient(to right, hsl(var(--primary)), #2563eb);
   }
 
   .btn-primary:hover {
