@@ -11,16 +11,14 @@ export async function GET() {
             return NextResponse.redirect(new URL('/login', process.env.NEXTAUTH_URL!));
         }
 
-        const productId = process.env.POLAR_PRODUCT_ID;
+        const productId = process.env.POLAR_PRODUCT_ID || '918ecf9f-efe1-4e6b-a3d5-7a034aef67d8';
 
-        if (!productId) {
-            return NextResponse.json({ error: 'Product not configured' }, { status: 500 });
-        }
+        const successUrl = `${process.env.NEXTAUTH_URL || 'https://gitaval.vercel.app'}/dashboard?upgraded=true`;
 
         const checkoutSession = await polar.checkouts.create({
-            productId,
+            products: [productId],
             customerEmail: session.user.email,
-            successUrl: `${process.env.NEXTAUTH_URL}/dashboard?upgraded=true`,
+            successUrl,
         });
 
         return NextResponse.redirect(checkoutSession.url);
