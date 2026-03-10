@@ -4,6 +4,10 @@ import { prisma } from "@/lib/prisma";
 
 export async function POST(req: Request) {
     try {
+        if (!process.env.DATABASE_URL) {
+            console.error("CRITICAL: DATABASE_URL is missing from environment variables!");
+            return NextResponse.json({ message: "Configuration error: DATABASE_URL is missing" }, { status: 500 });
+        }
         const { email, password, name } = await req.json();
 
         if (!email || !password) {

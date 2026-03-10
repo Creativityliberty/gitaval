@@ -52,13 +52,17 @@ export const authOptions: NextAuthOptions = {
         strategy: "jwt",
         maxAge: 30 * 24 * 60 * 60, // 30 jours
     },
-    secret: process.env.NEXTAUTH_SECRET,
+    // On utilise le secret de l'env, sinon on met un fallback temporaire pour éviter l'erreur 500
+    secret: process.env.NEXTAUTH_SECRET || "fallback_secret_gitavale_2026_debug",
     pages: {
         signIn: "/login",
         error: "/login", // Rediriger les erreurs vers la page de login
     },
     callbacks: {
         async jwt({ token, user }) {
+            if (!process.env.NEXTAUTH_SECRET) {
+                console.warn("WARNING: NEXTAUTH_SECRET is missing from environment variables!");
+            }
             if (user) {
                 token.id = user.id;
             }
