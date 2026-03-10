@@ -17,10 +17,37 @@ export default function Sidebar({ onSelectProject }: { onSelectProject: (url: st
     const [projects, setProjects] = useState<Project[]>([]);
 
     useEffect(() => {
-        const stored = localStorage.getItem('gitavale_projects');
-        if (stored) {
-            setProjects(JSON.parse(stored));
-        }
+        const fetchProjects = async () => {
+            try {
+                const res = await fetch('/api/projects');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.projects && data.projects.length > 0) {
+                        const formatted = data.projects.map((p: any) => ({
+                            id: p.id,
+                            url: p.repoUrl,
+                            timestamp: new Date(p.timestamp).getTime(),
+                            owner: p.owner,
+                            repo: p.repoName
+                        }));
+                        setProjects(formatted);
+                        // Update local storage so it's fresh
+                        localStorage.setItem('gitavale_projects', JSON.stringify(formatted));
+                        return;
+                    }
+                }
+            } catch (e) {
+                console.error("Failed to fetch cloud projects", e);
+            }
+
+            // Fallback to local storage
+            const stored = localStorage.getItem('gitavale_projects');
+            if (stored) {
+                setProjects(JSON.parse(stored));
+            }
+        };
+
+        fetchProjects();
     }, [isOpen]);
 
     const deleteProject = (id: string, e: React.MouseEvent) => {
@@ -54,7 +81,7 @@ export default function Sidebar({ onSelectProject }: { onSelectProject: (url: st
                             animate={{ x: 0 }}
                             exit={{ x: '-100%' }}
                             transition={{ type: 'spring', damping: 20 }}
-                            className="fixed left-4 top-4 bottom-4 w-80 glass-panel shadow-2xl rounded-3xl z-[70] border border-white/10 flex flex-col overflow-hidden"
+                            className="fixed left-4 right-4 sm:right-auto top-4 bottom-4 w-[calc(100vw-2rem)] sm:w-80 glass-panel shadow-2xl rounded-3xl z-[70] border border-white/10 flex flex-col overflow-hidden"
                         >
                             <div className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20">
                                 <div className="flex items-center gap-3">

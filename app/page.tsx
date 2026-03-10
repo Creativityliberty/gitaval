@@ -1,6 +1,6 @@
 import RepoAnalyzer from './components/RepoAnalyzer';
 import Link from 'next/link';
-import { Terminal, Database, Shield, Zap, Code2, Sparkles } from 'lucide-react';
+import { Database, Shield, Zap, Code2, Sparkles } from 'lucide-react';
 
 export const metadata = {
   title: 'Gitavale - Codebase to Prompt',
@@ -20,7 +20,6 @@ export default function Home() {
       {/* Floating Glass Navigation */}
       <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-7xl glass-panel rounded-full px-6 py-4 flex items-center justify-between animate-reveal">
         <div className="flex items-center gap-2">
-          <Terminal className="w-6 h-6 text-primary" />
           <span className="font-display font-extrabold text-white text-xl tracking-tight text-glow">
             Gitavale
           </span>
@@ -130,7 +129,6 @@ export default function Home() {
       <footer className="relative z-10 border-t border-white/10 mt-20">
         <div className="max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2 opacity-50">
-            <Terminal className="w-5 h-5 text-white" />
             <span className="font-display font-bold text-white tracking-widest text-sm uppercase">Gitavale</span>
           </div>
           <p className="text-muted-foreground text-sm">

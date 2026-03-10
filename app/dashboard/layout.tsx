@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { LayoutDashboard, Settings, Key, UserCircle, Terminal } from "lucide-react";
+import { LayoutDashboard, Settings, Key, UserCircle } from "lucide-react";
 import Link from "next/link";
 import LogoutButton from "./LogoutButton";
 
@@ -24,7 +24,6 @@ export default async function DashboardLayout({
             {/* Side Navigation */}
             <aside className="w-64 glass-panel border-r border-white/5 flex flex-col hidden md:flex relative z-10 z-[40]">
                 <div className="p-6 border-b border-white/5 flex items-center gap-2">
-                    <Terminal className="h-6 w-6 text-primary" />
                     <h2 className="font-display font-extrabold text-xl text-white tracking-tight text-glow">Gitavale PRO</h2>
                 </div>
                 <nav className="flex-grow p-4 space-y-2">

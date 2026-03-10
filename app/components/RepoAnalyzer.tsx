@@ -43,9 +43,28 @@ export default function RepoAnalyzer() {
             setStatusMessage('PARSING FILE SYSTEM...');
             const data = await res.json();
 
+            let finalContent = data.content; // Assuming data.content is the digest
+
+            // Try formatting with custom prompt template
+            try {
+                const storedSettings = localStorage.getItem('gitavale_settings');
+                if (storedSettings) {
+                    const settings = JSON.parse(storedSettings);
+                    // Assuming settings.format is available and 'json' means no template
+                    if (settings.promptTemplate && settings.format !== 'json') {
+                        finalContent = settings.promptTemplate + "\n\n" + finalContent;
+                    }
+                }
+            } catch (e) {
+                console.error("Failed to inject prompt template", e);
+            }
+
+            // Update the result object with the potentially modified content
+            const updatedResult = { ...data, content: finalContent };
+
             setStatusMessage('GENERATING LLM DIGEST...');
-            setResult(data);
-            saveToHistory(targetUrl, data.summary);
+            setResult(updatedResult);
+            saveToHistory(targetUrl, data.summary); // Use original summary for history
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (err: unknown) {
             setError(err instanceof Error ? err.message : 'An unknown error occurred');
@@ -56,7 +75,8 @@ export default function RepoAnalyzer() {
     };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const saveToHistory = (repoUrl: string, summary: any) => {
+    const saveToHistory = async (repoUrl: string, summary: any) => {
+        // Save to local storage for guests
         const stored = localStorage.getItem('gitavale_projects');
         const projects = stored ? JSON.parse(stored) : [];
         const newProject = {
@@ -68,6 +88,23 @@ export default function RepoAnalyzer() {
         };
         const updated = [newProject, ...projects.filter((p: { url: string; }) => p.url !== repoUrl)].slice(0, 10);
         localStorage.setItem('gitavale_projects', JSON.stringify(updated));
+
+        // Attempt to save to database (will be ignored if not logged in)
+        try {
+            await fetch('/api/projects', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    repoUrl,
+                    owner: summary.owner,
+                    repoName: summary.repo,
+                    fileCount: summary.filesAnalyzed,
+                    tokenCount: summary.estimatedTokens || 0
+                })
+            });
+        } catch (e) {
+            console.error("Failed to save to cloud history", e);
+        }
     };
 
     const handleCopy = () => {
@@ -86,7 +123,34 @@ export default function RepoAnalyzer() {
         // Add summary and tree
         zip.file('SUMMARY.md', formatSummary(result.summary));
         zip.file('STRUCTURE.txt', result.tree);
-        zip.file('FULL_DIGEST.txt', result.content);
+
+        let exportData = result.content; // Use result.content which might already have the template
+        try {
+            const storedSettings = localStorage.getItem('gitavale_settings');
+            if (storedSettings) {
+                const settings = JSON.parse(storedSettings);
+                if (settings.promptTemplate && settings.format !== 'json') {
+                    // Already injected during analysis if generated freshly, 
+                    // but handle zip payload dynamically.
+                    // Check if the template is already prepended to avoid duplication
+                    exportData = result.content.startsWith(settings.promptTemplate) ? result.content : (settings.promptTemplate + "\n\n" + result.content);
+                }
+            }
+        } catch (e) {
+            console.error("Failed to inject prompt template for ZIP", e);
+        }
+
+        zip.file('FULL_DIGEST.txt', exportData); // Use exportData for the digest file
+        // Assuming metadata is part of result.summary or needs to be constructed
+        const metadata = {
+            owner: result.summary.owner,
+            repo: result.summary.repo,
+            filesAnalyzed: result.summary.filesAnalyzed,
+            estimatedTokens: result.summary.estimatedTokens,
+            timestamp: new Date().toISOString()
+        };
+        zip.file('metadata.json', JSON.stringify(metadata, null, 2));
+
 
         const content = await zip.generateAsync({ type: 'blob' });
         const element = document.createElement('a');
