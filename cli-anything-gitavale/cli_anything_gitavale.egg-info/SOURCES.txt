@@ -1,0 +1,16 @@
+setup.py
+cli_anything/gitavale/__init__.py
+cli_anything/gitavale/gitavale_cli.py
+cli_anything/gitavale/core/__init__.py
+cli_anything/gitavale/core/api.py
+cli_anything/gitavale/core/config.py
+cli_anything/gitavale/tests/__init__.py
+cli_anything/gitavale/tests/test_core.py
+cli_anything/gitavale/tests/test_full_e2e.py
+cli_anything/gitavale/utils/repl_skin.py
+cli_anything_gitavale.egg-info/PKG-INFO
+cli_anything_gitavale.egg-info/SOURCES.txt
+cli_anything_gitavale.egg-info/dependency_links.txt
+cli_anything_gitavale.egg-info/entry_points.txt
+cli_anything_gitavale.egg-info/requires.txt
+cli_anything_gitavale.egg-info/top_level.txt

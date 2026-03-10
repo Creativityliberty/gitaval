@@ -1,0 +1,4 @@
+click>=8.0.0
+prompt-toolkit>=3.0.0
+requests>=2.25.1
+questionary>=2.0.0
