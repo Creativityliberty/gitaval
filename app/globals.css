@@ -77,15 +77,35 @@
   }
 
   .glass-card {
-    @apply glass-panel rounded-2xl transition-all duration-300 hover:border-primary/30;
+    @apply glass-panel rounded-2xl transition-all duration-300;
+  }
+
+  .glass-card:hover {
+    border-color: hsla(var(--primary), 0.3);
   }
 
   .btn-primary {
-    @apply relative overflow-hidden px-6 py-2.5 rounded-xl font-semibold transition-all duration-300 bg-gradient-to-r from-primary to-blue-600 hover:shadow-[0_0_20px_rgba(30, 144, 255, 0.4)] active:scale-95;
+    @apply relative overflow-hidden px-6 py-2.5 rounded-xl font-semibold transition-all duration-300 bg-gradient-to-r from-primary to-blue-600;
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 0 20px rgba(30, 144, 255, 0.4);
+  }
+
+  .btn-primary:active {
+    transform: scale(0.95);
   }
 
   .btn-glass {
-    @apply glass-panel px-6 py-2.5 rounded-xl font-medium transition-all duration-300 hover:bg-white/10 active:scale-95 border border-white/10;
+    @apply glass-panel px-6 py-2.5 rounded-xl font-medium transition-all duration-300 border border-white/10;
+  }
+
+  .btn-glass:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .btn-glass:active {
+    transform: scale(0.95);
   }
 }
 
