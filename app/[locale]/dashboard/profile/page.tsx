@@ -3,8 +3,11 @@
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Save, User, Lock, Camera, Check, AlertCircle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export default function ProfilePage() {
+    const t = useTranslations('Profile');
+    const tc = useTranslations('Common');
     const [name, setName] = useState('');
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
@@ -37,10 +40,10 @@ export default function ProfilePage() {
             });
             const data = await res.json();
             if (!res.ok) throw new Error(data.error || 'Update failed');
-            setStatus({ type: 'success', msg: 'Profile updated successfully!' });
+            setStatus({ type: 'success', msg: t('success') });
             setCurrentPassword(''); setNewPassword(''); setConfirmPassword('');
         } catch (e) {
-            setStatus({ type: 'error', msg: e instanceof Error ? e.message : 'Update failed' });
+            setStatus({ type: 'error', msg: e instanceof Error ? e.message : tc('error') });
         } finally {
             setLoading(false);
         }
@@ -49,8 +52,8 @@ export default function ProfilePage() {
     return (
         <div className="space-y-6 animate-reveal">
             <div>
-                <h1 className="text-3xl font-display font-bold text-white mb-2">Profile</h1>
-                <p className="text-muted-foreground">Update your name, password, and avatar.</p>
+                <h1 className="text-3xl font-display font-bold text-white mb-2">{t('title')}</h1>
+                <p className="text-muted-foreground">{t('description')}</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -70,9 +73,9 @@ export default function ProfilePage() {
                         </div>
                     </div>
                     <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
-                    <p className="text-xs text-muted-foreground text-center">Click to upload avatar<br />PNG, JPG, GIF up to 2MB</p>
+                    <p className="text-xs text-muted-foreground text-center">{t('uploadAvatar')}<br />{t('uploadHint')}</p>
                     <button onClick={() => fileRef.current?.click()} className="btn-glass text-sm px-4 py-2">
-                        Change Photo
+                        {t('changePhoto')}
                     </button>
                 </div>
 
@@ -81,7 +84,7 @@ export default function ProfilePage() {
                     <div className="glass-card p-6 space-y-4">
                         <div className="flex items-center gap-2 mb-2">
                             <User className="h-4 w-4 text-primary" />
-                            <h2 className="text-lg font-display font-bold text-white">Display Name</h2>
+                            <h2 className="text-lg font-display font-bold text-white">{t('displayName')}</h2>
                         </div>
                         <input
                             type="text"
@@ -95,25 +98,25 @@ export default function ProfilePage() {
                     <div className="glass-card p-6 space-y-4">
                         <div className="flex items-center gap-2 mb-2">
                             <Lock className="h-4 w-4 text-primary" />
-                            <h2 className="text-lg font-display font-bold text-white">Change Password</h2>
+                            <h2 className="text-lg font-display font-bold text-white">{t('changePassword')}</h2>
                         </div>
                         <input
                             type="password"
-                            placeholder="Current password"
+                            placeholder={t('currentPassword')}
                             value={currentPassword}
                             onChange={(e) => setCurrentPassword(e.target.value)}
                             className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-muted-foreground focus:outline-none focus:border-primary/50 transition-colors text-sm"
                         />
                         <input
                             type="password"
-                            placeholder="New password"
+                            placeholder={t('newPassword')}
                             value={newPassword}
                             onChange={(e) => setNewPassword(e.target.value)}
                             className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-muted-foreground focus:outline-none focus:border-primary/50 transition-colors text-sm"
                         />
                         <input
                             type="password"
-                            placeholder="Confirm new password"
+                            placeholder={t('confirmPassword')}
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-muted-foreground focus:outline-none focus:border-primary/50 transition-colors text-sm"
@@ -139,7 +142,7 @@ export default function ProfilePage() {
             <div className="flex justify-end">
                 <button onClick={handleSave} disabled={loading} className="btn-primary flex items-center gap-2">
                     <Save className="h-4 w-4" />
-                    {loading ? 'Saving…' : 'Save Changes'}
+                    {loading ? tc('saving') : tc('save')}
                 </button>
             </div>
         </div>

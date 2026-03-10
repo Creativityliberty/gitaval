@@ -1,8 +1,9 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import Link from "next/link";
+import { Link } from "../../../../navigation";
 import { Archive, ArrowRight, Database } from "lucide-react";
+import { getTranslations } from 'next-intl/server';
 
 type ProjectSummary = {
     id: string;
@@ -17,6 +18,7 @@ type ProjectSummary = {
 
 export default async function ArchivesPage() {
     const session = await getServerSession(authOptions);
+    const t = await getTranslations('Dashboard');
 
     let projects: ProjectSummary[] = [];
     if (session?.user?.email) {
@@ -48,7 +50,7 @@ export default async function ArchivesPage() {
             <header className="mb-8">
                 <h1 className="text-3xl font-display font-bold text-white tracking-tight flex items-center gap-3">
                     <Archive className="h-8 w-8 text-primary" />
-                    Project Archives
+                    {t('archives')}
                 </h1>
                 <p className="text-muted-foreground mt-2">View and re-download your previously generated context digests without re-analyzing the repository.</p>
             </header>

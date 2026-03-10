@@ -1,13 +1,11 @@
-import RepoAnalyzer from './components/RepoAnalyzer';
-import Link from 'next/link';
+import RepoAnalyzer from '../components/RepoAnalyzer';
+import { Link } from '../../navigation';
 import { Database, Shield, Zap, Code2, Sparkles } from 'lucide-react';
-
-export const metadata = {
-  title: 'Gitavale - Codebase to Prompt',
-  description: 'Turn any Git repo into an LLM-ready digest.',
-};
+import { useTranslations } from 'next-intl';
 
 export default function Home() {
+  const t = useTranslations('Index');
+
   return (
     <main className="min-h-screen bg-background selection:bg-primary/30 pb-20 overflow-x-hidden">
       {/* Dynamic Background */}
@@ -42,14 +40,23 @@ export default function Home() {
             <span>Nümtema Foundry 2026</span>
           </div>
           <h1 className="text-5xl md:text-7xl font-display font-extrabold text-white mb-6 leading-tight tracking-tight">
-            Your Github Repo, <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-cyan-300">
-              compressed for AI.
-            </span>
+            {t.rich('title', {
+              br: () => <br className="hidden md:block" />,
+              span: (chunks) => <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-cyan-300">{chunks}</span>
+            })}
           </h1>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto font-body">
-            Convert entire codebases into a single, context-ready payload for LLMs in seconds. No setup required.
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto font-body mb-10">
+            {t('description')}
           </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link href="/register" className="btn-primary px-8 py-4 text-lg w-full sm:w-auto">
+              {t('heroCta')}
+            </Link>
+            <Link href="#features" className="btn-glass px-8 py-4 text-lg text-white w-full sm:w-auto">
+              {t('secondaryCta')}
+            </Link>
+          </div>
         </section>
 
         {/* The Analyzer - Central Piece */}
@@ -75,9 +82,9 @@ export default function Home() {
             <div className="glass-card md:col-span-2 md:row-span-2 p-8 flex flex-col relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-[80px] group-hover:bg-primary/20 transition-all duration-500"></div>
               <Code2 className="w-10 h-10 text-primary mb-6" />
-              <h3 className="text-2xl font-display font-bold text-white mb-3">Intelligent Parsing</h3>
+              <h3 className="text-2xl font-display font-bold text-white mb-3">{t('features.fast')}</h3>
               <p className="text-muted-foreground font-body max-w-md">
-                Our analyzer automatically ignores node_modules, build artifacts, and binaries, ensuring your LLM context window isn&apos;t wasted on garbage.
+                {t('features.fastDesc')}
               </p>
               {/* Fake Code Block Visual */}
               <div className="mt-auto bg-black/50 border border-white/5 rounded-xl p-4 font-mono text-xs text-muted-foreground">
@@ -95,8 +102,8 @@ export default function Home() {
             <div className="glass-card p-8 flex flex-col justify-between group">
               <div>
                 <Zap className="w-8 h-8 text-cyan-400 mb-4" />
-                <h3 className="text-xl font-display font-bold text-white mb-2">Token Estimation</h3>
-                <p className="text-sm text-muted-foreground">Know exactly how much context you&apos;re consuming before pasting into ChatGPT or Claude.</p>
+                <h3 className="text-xl font-display font-bold text-white mb-2">{t('features.premium')}</h3>
+                <p className="text-sm text-muted-foreground">{t('features.premiumDesc')}</p>
               </div>
             </div>
 
@@ -104,8 +111,8 @@ export default function Home() {
             <div className="glass-card p-8 flex flex-col justify-between group">
               <div>
                 <Database className="w-8 h-8 text-blue-400 mb-4" />
-                <h3 className="text-xl font-display font-bold text-white mb-2">ZIP Export</h3>
-                <p className="text-sm text-muted-foreground">Download a neatly organized ZIP archive containing your codebase structure and full text digest.</p>
+                <h3 className="text-xl font-display font-bold text-white mb-2">{t('features.api')}</h3>
+                <p className="text-sm text-muted-foreground">{t('features.apiDesc')}</p>
               </div>
             </div>
 

@@ -1,0 +1,20 @@
+{
+    "name": "gitavale",
+    "owner": {
+        "name": "Nümtema AI Foundry"
+    },
+    "metadata": {
+        "description": "Turn any GitHub repository into an LLM-ready text digest directly from Claude Code."
+    },
+    "plugins": [
+        {
+            "name": "gitavale",
+            "source": "cli-anything-gitavale",
+            "description": "Analyze repositories and manage digests.",
+            "author": {
+                "name": "Nümtema AI Foundry"
+            },
+            "category": "utility"
+        }
+    ]
+}

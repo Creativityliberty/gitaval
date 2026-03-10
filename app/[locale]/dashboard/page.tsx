@@ -1,16 +1,18 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import RepoAnalyzer from "../components/RepoAnalyzer";
+import RepoAnalyzer from "../../components/RepoAnalyzer";
+import { useTranslations } from 'next-intl';
 
-export default async function DashboardPage() {
-    const session = await getServerSession(authOptions);
+export default function DashboardPage() {
+    const session = getServerSession(authOptions);
+    const t = useTranslations('Dashboard');
 
     return (
         <>
             <header className="mb-8 flex items-center justify-between">
                 <div>
-                    <h1 className="text-3xl font-display font-bold text-white tracking-tight">Project Hub</h1>
-                    <p className="text-muted-foreground mt-1">Welcome back, {session?.user?.name}</p>
+                    <h1 className="text-3xl font-display font-bold text-white tracking-tight">{t('title')}</h1>
+                    <p className="text-muted-foreground mt-1">{t('description')}</p>
                 </div>
             </header>
 

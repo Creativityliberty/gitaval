@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Archive, X, Trash2, FolderOpen } from 'lucide-react';
+import { Link } from '../../navigation';
+import { useTranslations } from 'next-intl';
 
 interface Project {
     id: string;
@@ -15,6 +17,7 @@ interface Project {
 export default function Sidebar({ onSelectProject }: { onSelectProject: (url: string) => void }) {
     const [isOpen, setIsOpen] = useState(false);
     const [projects, setProjects] = useState<Project[]>([]);
+    const t = useTranslations('Dashboard');
 
     useEffect(() => {
         const fetchProjects = async () => {
@@ -61,10 +64,10 @@ export default function Sidebar({ onSelectProject }: { onSelectProject: (url: st
             <button
                 onClick={() => setIsOpen(true)}
                 className="fixed right-6 bottom-6 z-50 p-4 btn-glass hover:scale-110 transition-transform flex items-center gap-3 shadow-[0_0_30px_-5px_rgba(34,211,238,0.3)] border border-primary/30 group"
-                title="Project Archives"
+                title={t('archives')}
             >
                 <Archive className="h-5 w-5 text-primary group-hover:text-white transition-colors" />
-                <span className="text-sm text-white font-bold hidden sm:block">My Archives</span>
+                <span className="text-sm text-white font-bold hidden sm:block">{t('archives')}</span>
             </button>
 
             <AnimatePresence>
@@ -87,7 +90,7 @@ export default function Sidebar({ onSelectProject }: { onSelectProject: (url: st
                             <div className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20">
                                 <div className="flex items-center gap-3">
                                     <Archive className="h-5 w-5 text-primary" />
-                                    <h2 className="font-display font-bold text-xl text-white">My Archives</h2>
+                                    <h2 className="font-display font-bold text-xl text-white">{t('archives')}</h2>
                                 </div>
                                 <button onClick={() => setIsOpen(false)} className="p-2 hover:bg-white/10 rounded-full transition-colors">
                                     <X className="h-5 w-5 text-muted-foreground hover:text-white" />
@@ -144,5 +147,3 @@ export default function Sidebar({ onSelectProject }: { onSelectProject: (url: st
         </>
     );
 }
-
-import Link from 'next/link';

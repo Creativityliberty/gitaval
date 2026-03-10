@@ -202,6 +202,24 @@ POLAR_SERVER=            # "production" | "sandbox"
 
 ---
 
+## Claude Code Integration
+
+Gitavale is fully integrated with Claude Code via a dedicated plugin.
+
+### Installation
+
+1. Ensure the Gitavale CLI is installed: `cd cli-anything-gitavale && pip install -e .`
+2. The plugin is located in the root `.claude-plugin` directory.
+3. In Claude Code, run: `/reload-plugins` (it should detect the plugin automatically if you are in the project root).
+
+### Custom Commands
+
+- `/gitavale <repo>`: Analyzes a repository and saves the digest to a temporary file for the agent to read.
+- `/gitavale:archives`: Lists your recent archives.
+- `/gitavale:auth`: Set up your API key.
+
+---
+
 ## Agent Usage Pattern
 
 When a user needs to analyze a GitHub repo in your current session:

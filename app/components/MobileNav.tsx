@@ -1,8 +1,9 @@
 'use client';
 
-import Link from 'next/link';
+import { Link } from '../../navigation';
 import { LayoutDashboard, Archive, Settings, Zap, User } from 'lucide-react';
-import { usePathname } from 'next/navigation';
+import { usePathname } from '../../navigation';
+import { useTranslations } from 'next-intl';
 
 interface MobileNavProps {
     userPlan: string;
@@ -10,13 +11,14 @@ interface MobileNavProps {
 
 export default function MobileNav({ userPlan }: MobileNavProps) {
     const pathname = usePathname();
+    const t = useTranslations('Dashboard');
 
     const items = [
         { href: '/dashboard', icon: LayoutDashboard, label: 'Hub' },
-        { href: '/dashboard/archives', icon: Archive, label: 'Archives' },
+        { href: '/dashboard/archives', icon: Archive, label: t('archives') },
         { href: '/dashboard/settings', icon: Settings, label: 'Settings' },
         { href: '/dashboard/profile', icon: User, label: 'Profile' },
-        ...(userPlan !== 'pro' ? [{ href: '/dashboard/upgrade', icon: Zap, label: 'Upgrade' }] : []),
+        ...(userPlan !== 'pro' ? [{ href: '/dashboard/upgrade', icon: Zap, label: t('upgrade') }] : []),
     ];
 
     return (

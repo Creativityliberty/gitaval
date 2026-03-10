@@ -9,6 +9,8 @@ import UpgradeModal from './UpgradeModal';
 import JSZip from 'jszip';
 
 export default function RepoAnalyzer() {
+    const t = useTranslations('RepoAnalyzer');
+    const tc = useTranslations('Common');
     const [url, setUrl] = useState('');
     const [loading, setLoading] = useState(false);
     const [statusMessage, setStatusMessage] = useState('');
@@ -44,10 +46,10 @@ export default function RepoAnalyzer() {
         setLoading(true);
         setError('');
         setResult(null);
-        setStatusMessage('INITIALIZING ANALYSIS...');
+        setStatusMessage(t('initializing'));
 
         try {
-            setStatusMessage('FETCHING REPOSITORY METADATA...');
+            setStatusMessage(t('fetching'));
             const res = await fetch('/api/analyze', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -60,13 +62,13 @@ export default function RepoAnalyzer() {
                     setUpgradeModal('free_limit');
                     return;
                 }
-                throw new Error(data.error || 'Failed to analyze repository');
+                throw new Error(data.error || tc('error'));
             }
 
             // Track anonymous usage after successful call
             if (!isLoggedIn) incrementAnonCount();
 
-            setStatusMessage('PARSING FILE SYSTEM...');
+            setStatusMessage(t('parsing'));
             const data = await res.json();
 
             let finalContent = data.content; // Assuming data.content is the digest
@@ -91,12 +93,12 @@ export default function RepoAnalyzer() {
             // Update the result object with the potentially modified content
             const updatedResult = { ...data, content: finalContent };
 
-            setStatusMessage('GENERATING LLM DIGEST...');
+            setStatusMessage(t('generating'));
             setResult(updatedResult);
             saveToHistory(targetUrl, data.summary, currentFormat, currentPrompt, finalContent); // Use original summary for history
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (err: unknown) {
-            setError(err instanceof Error ? err.message : 'An unknown error occurred');
+            setError(err instanceof Error ? err.message : tc('error'));
         } finally {
             setLoading(false);
             setStatusMessage('');
@@ -223,7 +225,7 @@ export default function RepoAnalyzer() {
                         <input
                             type="text"
                             className="block w-full pl-12 pr-4 py-5 border border-white/5 rounded-[1.8rem] bg-black/40 focus:bg-black/60 focus:ring-2 focus:ring-primary/50 transition-all text-white placeholder-muted-foreground text-lg outline-none"
-                            placeholder="https://github.com/owner/repo"
+                            placeholder={t('placeholder')}
                             value={url}
                             onChange={(e) => setUrl(e.target.value)}
                         />
@@ -233,7 +235,7 @@ export default function RepoAnalyzer() {
                         disabled={loading || !url}
                         className="btn-primary rounded-[1.8rem] flex items-center justify-center min-w-[160px] disabled:opacity-50 disabled:cursor-not-allowed text-lg"
                     >
-                        {loading ? <Loader2 className="animate-spin h-6 w-6" /> : 'Analyze'}
+                        {loading ? <Loader2 className="animate-spin h-6 w-6" /> : t('analyze')}
                     </button>
                 </form>
             </div>
@@ -258,9 +260,9 @@ export default function RepoAnalyzer() {
                         {/* Stats Cards */}
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {[
-                                { label: 'Files Analyzed', value: result.summary.filesAnalyzed, color: 'text-primary' },
-                                { label: 'Estimated Tokens', value: result.summary.estimatedTokens.toLocaleString(), color: 'text-cyan-400' },
-                                { label: 'Context Size', value: `${(result.content.length / 1024).toFixed(1)} KB`, color: 'text-blue-400' }
+                                { label: t('filesAnalyzed'), value: result.summary.filesAnalyzed, color: 'text-primary' },
+                                { label: t('estimatedTokens'), value: result.summary.estimatedTokens.toLocaleString(), color: 'text-cyan-400' },
+                                { label: t('contextSize'), value: `${(result.content.length / 1024).toFixed(1)} KB`, color: 'text-blue-400' }
                             ].map((stat, i) => (
                                 <div key={i} className="glass-card p-8">
                                     <div className="text-sm font-bold text-muted-foreground uppercase tracking-widest mb-2">{stat.label}</div>
@@ -276,7 +278,7 @@ export default function RepoAnalyzer() {
                                     <div className="p-2 bg-primary/20 rounded-xl border border-primary/30">
                                         <FileCode className="h-6 w-6 text-primary" />
                                     </div>
-                                    <span className="font-display font-bold text-xl text-white uppercase tracking-tight">Digest Preview</span>
+                                    <span className="font-display font-bold text-xl text-white uppercase tracking-tight">{t('preview')}</span>
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <button
@@ -284,14 +286,14 @@ export default function RepoAnalyzer() {
                                         className="btn-glass flex items-center gap-2 text-sm text-white"
                                     >
                                         <Download className="h-4 w-4" />
-                                        ZIP Export
+                                        {t('zipExport')}
                                     </button>
                                     <button
                                         onClick={handleCopy}
                                         className="btn-primary text-sm flex items-center gap-2"
                                     >
                                         {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                                        {copied ? 'Copied!' : 'Copy to Clipboard'}
+                                        {copied ? tc('copied') : t('copyToClipboard')}
                                     </button>
                                 </div>
                             </div>

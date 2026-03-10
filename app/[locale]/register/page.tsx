@@ -1,12 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import { useRouter, Link } from '../../../navigation';
 import { Loader2, ArrowRight } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export default function RegisterPage() {
     const router = useRouter();
+    const t = useTranslations('Auth');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -50,7 +51,7 @@ export default function RegisterPage() {
                         <Link href="/" className="inline-block p-2 bg-primary/20 rounded-xl mb-8 border border-primary/30 text-primary hover:bg-primary/30 transition-colors">
                             <span className="font-display font-extrabold tracking-widest text-sm">G I T A V A L E</span>
                         </Link>
-                        <h1 className="text-4xl font-display font-extrabold text-white tracking-tight">Create Account</h1>
+                        <h1 className="text-4xl font-display font-extrabold text-white tracking-tight">{t('createAccount')}</h1>
                         <p className="text-muted-foreground mt-2 font-body">Join the next generation of CI/CD parsing.</p>
                     </div>
 
@@ -70,7 +71,7 @@ export default function RegisterPage() {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-sm font-bold text-white">Email Address</label>
+                            <label className="text-sm font-bold text-white">{t('email')}</label>
                             <input
                                 type="email"
                                 required
@@ -82,7 +83,7 @@ export default function RegisterPage() {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-sm font-bold text-white">Password</label>
+                            <label className="text-sm font-bold text-white">{t('password')}</label>
                             <input
                                 type="password"
                                 required
@@ -98,15 +99,15 @@ export default function RegisterPage() {
                             disabled={loading}
                             className="w-full py-4 px-6 btn-primary rounded-2xl flex items-center justify-center gap-2 group text-lg"
                         >
-                            {loading ? <Loader2 className="animate-spin h-5 w-5" /> : 'Sign Up'}
+                            {loading ? <Loader2 className="animate-spin h-5 w-5" /> : t('signup')}
                             {!loading && <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />}
                         </button>
                     </form>
 
                     <p className="mt-8 text-center text-muted-foreground font-body">
-                        Already have an account?{' '}
+                        {t('hasAccount')}{' '}
                         <Link href="/login" className="text-primary font-bold hover:underline">
-                            Log in
+                            {t('login')}
                         </Link>
                     </p>
                 </div>

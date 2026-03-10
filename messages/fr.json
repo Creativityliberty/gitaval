@@ -1,0 +1,94 @@
+{
+    "Index": {
+        "title": "Transformez n'importe quel Repo GitHub en texte prêt pour LLM",
+        "description": "Gitavale analyse vos bases de code en un contexte markdown optimisé. Parfait pour Claude, Cursor et les LLM.",
+        "cta": "Analyser maintenant — Gratuit",
+        "placeholder": "Entrez l'URL du dépôt GitHub...",
+        "features": {
+            "fast": "Ultra Rapide",
+            "fastDesc": "Traite des milliers de fichiers en quelques secondes sans superflu.",
+            "premium": "Design Premium",
+            "premiumDesc": "Interface Glassmorphism conçue pour l'ère du développement 2026.",
+            "api": "API Publique",
+            "apiDesc": "Intégrez Gitavale dans vos propres workflows et CI/CD."
+        },
+        "heroCta": "Commencer — C'est gratuit",
+        "secondaryCta": "Comment ça marche"
+    },
+    "Dashboard": {
+        "title": "Hub de Projets",
+        "description": "Gérez vos analyses de repo et vos insights.",
+        "upgrade": "Passer en Pro",
+        "billing": "Gérer la facturation",
+        "profile": "Paramètres du profil",
+        "archives": "Mes Archives",
+        "apiKeys": "Clés API",
+        "settings": "Paramètres globaux",
+        "signout": "Déconnexion"
+    },
+    "Auth": {
+        "login": "Connexion",
+        "signup": "Inscription",
+        "welcome": "Bon retour",
+        "createAccount": "Créer un compte",
+        "email": "Adresse Email",
+        "password": "Mot de passe",
+        "noAccount": "Vous n'avez pas de compte ?",
+        "hasAccount": "Vous avez déjà un compte ?"
+    },
+    "Common": {
+        "save": "Enregistrer",
+        "saving": "Enregistrement...",
+        "loading": "Chargement...",
+        "error": "Une erreur est survenue",
+        "success": "Succès !",
+        "cancel": "Annuler",
+        "copy": "Copier",
+        "copied": "Copié !",
+        "saved": "Enregistré !"
+    },
+    "Profile": {
+        "title": "Profil",
+        "description": "Mettez à jour votre nom, mot de passe et avatar.",
+        "avatar": "Avatar",
+        "displayName": "Nom d'affichage",
+        "changePassword": "Changer le mot de passe",
+        "currentPassword": "Mot de passe actuel",
+        "newPassword": "Nouveau mot de passe",
+        "confirmPassword": "Confirmer le nouveau mot de passe",
+        "uploadAvatar": "Cliquez pour télécharger l'avatar",
+        "uploadHint": "PNG, JPG, GIF jusqu'à 2 Mo",
+        "changePhoto": "Changer la photo",
+        "success": "Profil mis à jour avec succès !"
+    },
+    "RepoAnalyzer": {
+        "analyze": "Analyser",
+        "analyzing": "Analyse...",
+        "placeholder": "https://github.com/owner/repo",
+        "preview": "Aperçu du Digest",
+        "zipExport": "Export ZIP",
+        "copyToClipboard": "Copier dans le presse-papier",
+        "filesAnalyzed": "Fichiers analysés",
+        "estimatedTokens": "Tokens estimés",
+        "contextSize": "Taille du contexte",
+        "initializing": "INITIALISATION DE L'ANALYSE...",
+        "fetching": "RÉCUPÉRATION DES MÉTADONNÉES...",
+        "parsing": "ANALYSE DU SYSTÈME DE FICHIERS...",
+        "generating": "GÉNÉRATION DU DIGEST LLM..."
+    },
+    "Settings": {
+        "title": "Paramètres d'export",
+        "description": "Configurez la manière dont Gitavale formate vos digests de base de code et définissez des prompts personnalisés pour les LLM.",
+        "promptTitle": "Template de Prompt",
+        "promptDesc": "Ce texte sera automatiquement ajouté au début de vos digests de dépôt générés. Utilisez-le pour donner des instructions à votre LLM sur ce qu'il doit faire avec le code.",
+        "promptPlaceholder": "Ex: Veuillez examiner cette base de code pour trouver des bugs...",
+        "formatTitle": "Format d'export par défaut",
+        "formatMarkdown": "Markdown (.md)",
+        "formatMarkdownHint": "Recommandé pour l'interface",
+        "formatText": "Texte brut (.txt)",
+        "formatTextHint": "Idéal pour les tokens bruts",
+        "formatJson": "JSON (.json)",
+        "formatJsonHint": "Pour l'API Agent",
+        "saveSettings": "Enregistrer les paramètres"
+    }
+}

@@ -1,0 +1,94 @@
+{
+    "Index": {
+        "title": "Turn Any GitHub Repo into LLM-Ready Text",
+        "description": "Gitavale parses your codebases into highly optimized markdown context. Perfect for Claude, Cursor, and LLMs.",
+        "cta": "Analyze Now — Free",
+        "placeholder": "Enter GitHub repository URL...",
+        "features": {
+            "fast": "Lightning Fast",
+            "fastDesc": "Processes thousands of files in seconds with zero bloat.",
+            "premium": "Premium Design",
+            "premiumDesc": "Glassmorphism UI built for the 2026 development era.",
+            "api": "Public API",
+            "apiDesc": "Integrate Gitavale into your own workflows and CI/CD."
+        },
+        "heroCta": "Get Started — It's Free",
+        "secondaryCta": "How it works"
+    },
+    "Dashboard": {
+        "title": "Project Hub",
+        "description": "Manage your repo analyses and insights.",
+        "upgrade": "Upgrade to Pro",
+        "billing": "Manage Billing",
+        "profile": "Profile Settings",
+        "archives": "My Archives",
+        "apiKeys": "API Keys",
+        "settings": "Global Settings",
+        "signout": "Sign Out"
+    },
+    "Auth": {
+        "login": "Sign In",
+        "signup": "Sign Up",
+        "welcome": "Welcome Back",
+        "createAccount": "Create an Account",
+        "email": "Email Address",
+        "password": "Password",
+        "noAccount": "Don't have an account?",
+        "hasAccount": "Already have an account?"
+    },
+    "Common": {
+        "save": "Save Changes",
+        "saving": "Saving...",
+        "loading": "Loading...",
+        "error": "An error occurred",
+        "success": "Success!",
+        "cancel": "Cancel",
+        "copy": "Copy",
+        "copied": "Copied!",
+        "saved": "Saved!"
+    },
+    "Profile": {
+        "title": "Profile",
+        "description": "Update your name, password, and avatar.",
+        "avatar": "Avatar",
+        "displayName": "Display Name",
+        "changePassword": "Change Password",
+        "currentPassword": "Current password",
+        "newPassword": "New password",
+        "confirmPassword": "Confirm new password",
+        "uploadAvatar": "Click to upload avatar",
+        "uploadHint": "PNG, JPG, GIF up to 2MB",
+        "changePhoto": "Change Photo",
+        "success": "Profile updated successfully!"
+    },
+    "RepoAnalyzer": {
+        "analyze": "Analyze",
+        "analyzing": "Analyzing...",
+        "placeholder": "https://github.com/owner/repo",
+        "preview": "Digest Preview",
+        "zipExport": "ZIP Export",
+        "copyToClipboard": "Copy to Clipboard",
+        "filesAnalyzed": "Files Analyzed",
+        "estimatedTokens": "Estimated Tokens",
+        "contextSize": "Context Size",
+        "initializing": "INITIALIZING ANALYSIS...",
+        "fetching": "FETCHING METADATA...",
+        "parsing": "PARSING FILE SYSTEM...",
+        "generating": "GENERATING LLM DIGEST..."
+    },
+    "Settings": {
+        "title": "Export Settings",
+        "description": "Configure how Gitavale formats your codebase digests and define custom prompts for LLMs.",
+        "promptTitle": "Prompt Template",
+        "promptDesc": "This text will be automatically prepended to the top of your generated repository digests. Use this to instruct your LLM on what to do with the code.",
+        "promptPlaceholder": "E.g., Please review this codebase for bugs...",
+        "formatTitle": "Default Export Format",
+        "formatMarkdown": "Markdown (.md)",
+        "formatMarkdownHint": "Recommended for UI",
+        "formatText": "Plain Text (.txt)",
+        "formatTextHint": "Best for raw tokens",
+        "formatJson": "JSON (.json)",
+        "formatJsonHint": "For Agent API",
+        "saveSettings": "Save Settings"
+    }
+}

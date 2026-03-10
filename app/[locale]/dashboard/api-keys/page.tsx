@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { Key, Plus, Copy, Trash2, Check, AlertCircle, Terminal, Lock, Zap } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from '../../../../navigation';
+import { useTranslations } from 'next-intl';
 
 interface ApiKey {
     id: string;
@@ -13,6 +15,7 @@ interface ApiKey {
 }
 
 export default function ApiKeysPage() {
+    const t = useTranslations('Dashboard');
     const [keys, setKeys] = useState<ApiKey[]>([]);
     const [loading, setLoading] = useState(true);
     const [isPro, setIsPro] = useState(false);
@@ -79,7 +82,7 @@ export default function ApiKeysPage() {
             <div className="space-y-6 animate-reveal">
                 <header>
                     <h1 className="text-3xl font-display font-bold text-white mb-2 flex items-center gap-3">
-                        <Key className="h-8 w-8 text-primary" /> API Keys
+                        <Key className="h-8 w-8 text-primary" /> {t('apiKeys')}
                     </h1>
                     <p className="text-muted-foreground">Use Gitavale programmatically from your terminal or CI/CD.</p>
                 </header>
@@ -91,9 +94,9 @@ export default function ApiKeysPage() {
                         <h2 className="text-xl font-display font-bold text-white mb-2">API Access — Pro Only</h2>
                         <p className="text-muted-foreground max-w-sm mx-auto">Generate API keys to analyze repos programmatically, integrate with CI/CD, or build your own tools on top of Gitavale.</p>
                     </div>
-                    <a href="/api/checkout" className="btn-primary flex items-center gap-2">
+                    <Link href="/api/checkout" className="btn-primary flex items-center gap-2">
                         <Zap className="h-4 w-4" /> Upgrade to Pro — €5/month
-                    </a>
+                    </Link>
                 </div>
             </div>
         );
@@ -104,7 +107,7 @@ export default function ApiKeysPage() {
             <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-3xl font-display font-bold text-white mb-2 flex items-center gap-3">
-                        <Key className="h-8 w-8 text-primary" /> API Keys
+                        <Key className="h-8 w-8 text-primary" /> {t('apiKeys')}
                     </h1>
                     <p className="text-muted-foreground">Manage keys to use Gitavale via terminal or CI/CD pipelines.</p>
                 </div>

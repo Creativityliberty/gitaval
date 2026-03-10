@@ -2,12 +2,13 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
+import { Link, usePathname } from '../../navigation';
 import {
     LayoutDashboard, Settings, Key, UserCircle, Archive, Zap,
-    ChevronLeft, ChevronRight, LogOut, CreditCard
+    ChevronLeft, ChevronRight, LogOut, CreditCard, Languages
 } from 'lucide-react';
 import { signOut } from 'next-auth/react';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface NavItem {
     href: string;
@@ -23,20 +24,23 @@ interface DashboardSidebarProps {
 
 export default function DashboardSidebar({ userName, userPlan }: DashboardSidebarProps) {
     const [collapsed, setCollapsed] = useState(false);
+    const t = useTranslations('Dashboard');
+    const locale = useLocale();
+    const pathname = usePathname();
 
     const navItems: NavItem[] = [
-        { href: '/dashboard', icon: <LayoutDashboard className="h-5 w-5 shrink-0" />, label: 'Project Hub' },
-        { href: '/dashboard/archives', icon: <Archive className="h-5 w-5 shrink-0" />, label: 'Archives' },
-        { href: '/dashboard/api-keys', icon: <Key className="h-5 w-5 shrink-0" />, label: 'API Keys' },
-        { href: '/dashboard/settings', icon: <Settings className="h-5 w-5 shrink-0" />, label: 'Settings' },
+        { href: '/dashboard', icon: <LayoutDashboard className="h-5 w-5 shrink-0" />, label: t('title') },
+        { href: '/dashboard/archives', icon: <Archive className="h-5 w-5 shrink-0" />, label: t('archives') },
+        { href: '/dashboard/api-keys', icon: <Key className="h-5 w-5 shrink-0" />, label: t('apiKeys') },
+        { href: '/dashboard/settings', icon: <Settings className="h-5 w-5 shrink-0" />, label: t('settings') },
         ...(userPlan === 'pro' ? [{
             href: '/api/billing/portal',
             icon: <CreditCard className="h-5 w-5 shrink-0" />,
-            label: 'Billing'
+            label: t('billing')
         }] : [{
             href: '/dashboard/upgrade',
             icon: <Zap className="h-5 w-5 shrink-0" />,
-            label: 'Upgrade to Pro',
+            label: t('upgrade'),
             highlight: true
         }]),
     ];
@@ -90,6 +94,30 @@ export default function DashboardSidebar({ userName, userPlan }: DashboardSideba
                 ))}
             </nav>
 
+            {/* Language Switcher */}
+            <div className="p-3 border-t border-white/5">
+                <div className={`flex items-center gap-2 ${collapsed ? 'justify-center' : 'px-3 py-2'}`}>
+                    <Languages className="h-4 w-4 text-muted-foreground" />
+                    {!collapsed && <span className="text-xs text-muted-foreground uppercase font-bold tracking-widest">Language</span>}
+                </div>
+                <div className={`mt-2 flex ${collapsed ? 'flex-col items-center gap-2' : 'gap-1'} px-1`}>
+                    <Link
+                        href={pathname}
+                        locale="en"
+                        className={`flex-1 text-center py-1.5 rounded-lg text-[10px] font-bold transition-all ${locale === 'en' ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:bg-white/5'}`}
+                    >
+                        EN
+                    </Link>
+                    <Link
+                        href={pathname}
+                        locale="fr"
+                        className={`flex-1 text-center py-1.5 rounded-lg text-[10px] font-bold transition-all ${locale === 'fr' ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:bg-white/5'}`}
+                    >
+                        FR
+                    </Link>
+                </div>
+            </div>
+
             {/* User Section */}
             <div className={`p-3 border-t border-white/5 bg-black/20`}>
                 <Link
@@ -116,11 +144,11 @@ export default function DashboardSidebar({ userName, userPlan }: DashboardSideba
                 </Link>
                 <button
                     onClick={() => signOut({ callbackUrl: '/' })}
-                    title={collapsed ? 'Sign out' : undefined}
+                    title={collapsed ? t('signout') : undefined}
                     className={`mt-1 flex items-center gap-3 px-3 py-2 w-full rounded-2xl text-muted-foreground hover:text-red-400 hover:bg-red-500/10 transition-colors ${collapsed ? 'justify-center' : ''}`}
                 >
                     <LogOut className="h-4 w-4 shrink-0" />
-                    {!collapsed && <span className="text-xs">Sign out</span>}
+                    {!collapsed && <span className="text-xs">{t('signout')}</span>}
                 </button>
             </div>
         </motion.aside>
