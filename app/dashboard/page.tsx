@@ -1,4 +1,5 @@
-import { getServerSession } from "next-auth";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import RepoAnalyzer from "../components/RepoAnalyzer";
 import { LayoutDashboard, Settings, UserCircle } from "lucide-react";
@@ -6,7 +7,7 @@ import Link from "next/link";
 import LogoutButton from "./LogoutButton";
 
 export default async function DashboardPage() {
-    const session = await getServerSession();
+    const session = await getServerSession(authOptions);
 
     if (!session) {
         redirect("/login");
