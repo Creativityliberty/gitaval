@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import {
     LayoutDashboard, Settings, Key, UserCircle, Archive, Zap,
-    ChevronLeft, ChevronRight, LogOut
+    ChevronLeft, ChevronRight, LogOut, CreditCard
 } from 'lucide-react';
 import { signOut } from 'next-auth/react';
 
@@ -27,14 +27,18 @@ export default function DashboardSidebar({ userName, userPlan }: DashboardSideba
     const navItems: NavItem[] = [
         { href: '/dashboard', icon: <LayoutDashboard className="h-5 w-5 shrink-0" />, label: 'Project Hub' },
         { href: '/dashboard/archives', icon: <Archive className="h-5 w-5 shrink-0" />, label: 'Archives' },
-        { href: '/dashboard/settings', icon: <Settings className="h-5 w-5 shrink-0" />, label: 'Settings' },
         { href: '/dashboard/api-keys', icon: <Key className="h-5 w-5 shrink-0" />, label: 'API Keys' },
-        ...(userPlan !== 'pro' ? [{
+        { href: '/dashboard/settings', icon: <Settings className="h-5 w-5 shrink-0" />, label: 'Settings' },
+        ...(userPlan === 'pro' ? [{
+            href: '/api/billing/portal',
+            icon: <CreditCard className="h-5 w-5 shrink-0" />,
+            label: 'Billing'
+        }] : [{
             href: '/dashboard/upgrade',
             icon: <Zap className="h-5 w-5 shrink-0" />,
             label: 'Upgrade to Pro',
             highlight: true
-        }] : []),
+        }]),
     ];
 
     return (
