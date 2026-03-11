@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import { redirect } from "../../navigation";
+import { redirect } from "../../../navigation";
 import DashboardSidebar from "../../components/DashboardSidebar";
 import MobileNav from "../../components/MobileNav";
 
